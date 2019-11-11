@@ -229,6 +229,17 @@ class DatasetCatalog(object):
                 factory="PascalVOCDataset",
                 args=args,
             )
+        elif "home" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="HOMEDataset",
+                args=args,
+            )
         elif "cityscapes" in name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = deepcopy(DatasetCatalog.DATASETS[name])
