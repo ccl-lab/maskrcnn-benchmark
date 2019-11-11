@@ -1,0 +1,19 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHT: "pretrained_models/e2e_faster_rcnn_R_50_C4_1x_trimmed.pth"
+  RPN:
+    PRE_NMS_TOP_N_TEST: 6000
+    POST_NMS_TOP_N_TEST: 1000
+DATASETS:
+  TRAIN: ("home_15_train_green",)
+  TEST: ("home_15_test_green",)
+SOLVER:
+  BASE_LR: 0.0011
+  WEIGHT_DECAY: 0.0001
+  STEPS: (120000, 160000)
+  MAX_ITER: 40000
+  IMS_PER_BATCH: 1
+  CHECKPOINT_PERIOD: 5000
+OUTPUT_DIR: "training/c4_latest_green"
+TEST:
+  IMS_PER_BATCH: 1

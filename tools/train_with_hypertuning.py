@@ -25,6 +25,8 @@ from maskrcnn_benchmark.utils.imports import import_file
 from maskrcnn_benchmark.utils.logger import setup_logger
 from maskrcnn_benchmark.utils.miscellaneous import mkdir
 
+import numpy as np
+
 
 def train(cfg, local_rank, distributed):
     model = build_detection_model(cfg)
@@ -89,10 +91,12 @@ def run_test(cfg, model, distributed):
     dataset_names = cfg.DATASETS.TEST
     if cfg.OUTPUT_DIR:
         for idx, dataset_name in enumerate(dataset_names):
-            output_folder = os.path.join(cfg.OUTPUT_DIR, "inference", dataset_name)
+            output_folder = os.path.join(
+                cfg.OUTPUT_DIR, "inference", dataset_name)
             mkdir(output_folder)
             output_folders[idx] = output_folder
-    data_loaders_val = make_data_loader(cfg, is_train=False, is_distributed=distributed)
+    data_loaders_val = make_data_loader(
+        cfg, is_train=False, is_distributed=distributed)
     for output_folder, dataset_name, data_loader_val in zip(output_folders, dataset_names, data_loaders_val):
         result = inference(
             model,
@@ -110,7 +114,8 @@ def run_test(cfg, model, distributed):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="PyTorch Object Detection Training")
+    parser = argparse.ArgumentParser(
+        description="PyTorch Object Detection Training")
     parser.add_argument(
         "--config-file",
         default="",
@@ -134,7 +139,8 @@ def main():
 
     args = parser.parse_args()
 
-    num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
+    num_gpus = int(os.environ["WORLD_SIZE"]
+                   ) if "WORLD_SIZE" in os.environ else 1
     args.distributed = num_gpus > 1
 
     if args.distributed:
@@ -144,31 +150,48 @@ def main():
         )
         synchronize()
 
+    # move the configuration options back into the config struct
+
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
-    cfg.freeze()
 
-    output_dir = cfg.OUTPUT_DIR
-    if output_dir:
-        mkdir(output_dir)
+    main_output_dir = cfg.OUTPUT_DIR
 
-    logger = setup_logger("maskrcnn_benchmark", output_dir, get_rank())
-    logger.info("Using {} GPUs".format(num_gpus))
-    logger.info(args)
+    for learn_rate in np.arange(0.0005, 0.0020, 0.0001):
+        for iter_count in range(40000, 100000, 1000):
+            print(f"lr: {learn_rate}  iter_count: {iter_count}")
 
-    logger.info("Collecting env info (might take some time)")
-    logger.info("\n" + collect_env_info())
+            outdir = os.path.join(
+                "hypertune", f"lr{learn_rate}iter{iter_count}")
 
-    logger.info("Loaded configuration file {}".format(args.config_file))
-    with open(args.config_file, "r") as cf:
-        config_str = "\n" + cf.read()
-        logger.info(config_str)
-    logger.info("Running with config:\n{}".format(cfg))
+            print(outdir)
+            cfg.OUTPUT_DIR = outdir  # set the output folder specific to learning rate
+            cfg['SOLVER']['BASE_LR'] = learn_rate  # set the learning rate
+            cfg['SOLVER']['MAX_ITER'] = iter_count
 
-    model = train(cfg, args.local_rank, args.distributed)
+            # cfg.freeze()
 
-    if not args.skip_test:
-        run_test(cfg, model, args.distributed)
+            output_dir = cfg.OUTPUT_DIR
+            if output_dir:
+                mkdir(output_dir)
+
+            logger = setup_logger("maskrcnn_benchmark", output_dir, get_rank())
+            logger.info("Using {} GPUs".format(num_gpus))
+            logger.info(args)
+
+            logger.info("Collecting env info (might take some time)")
+            logger.info("\n" + collect_env_info())
+
+            logger.info("Loaded configuration file {}".format(args.config_file))
+            with open(args.config_file, "r") as cf:
+                config_str = "\n" + cf.read()
+                logger.info(config_str)
+            logger.info("Running with config:\n{}".format(cfg))
+
+            model = train(cfg, args.local_rank, args.distributed)
+
+            if not args.skip_test:
+                run_test(cfg, model, args.distributed)
 
 
 if __name__ == "__main__":

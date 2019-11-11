@@ -147,6 +147,62 @@ class DatasetCatalog(object):
             "mode": "mask",
             "mini": 10,
         },
+        "home_15_train": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15.json"
+        },
+        "home_15_test": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15.json"
+        },
+        "home_15_train_black": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15_black.json"
+        },
+        "home_15_test_black": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15_black.json"
+        },
+        "home_15_train_yellow": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15_yellow.json"
+        },
+        "home_15_test_yellow": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15_yellow.json"
+        },
+        "home_15_train_green": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15_green.json"
+        },
+        "home_15_test_green": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15_green.json"
+        },
+        "home_15_inference": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/infer15.json"
+        },
+        "home_15_test_small": {
+            "img_dir": "home/test15_small",
+            "ann_file": "home/annotations/test15_small.json"
+        },
+        "home_15_green_sample": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/test15_subsample_green.json"
+        },
+        "home_15_black_sample": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/test15_subsample_black.json"
+        },
+        "home_15_black_sample_half": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/test15_subsample_black_half.json"
+        },
+        "home_15_green_sample_half": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/test15_subsample_green_half.json"
+        },
     }
 
     @staticmethod
