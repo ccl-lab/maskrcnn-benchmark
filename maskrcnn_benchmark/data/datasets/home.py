@@ -29,6 +29,19 @@ class HOMEDataset(torchvision.datasets.coco.CocoDetection):
         # sort indices for reproducible results
         self.ids = sorted(self.ids)
 
+        self.categories = {
+            1: "bison",
+            2: "alligator",
+            3: "drop",
+            4: "kettle",
+            5: "koala",
+            6: "lemon",
+            7: "mango",
+            8: "moose",
+            9: "pot",
+            10: "seal"
+        }
+
         self.json_category_id_to_contiguous_id = {
             v: i + 1 for i, v in enumerate(self.coco.getCatIds())
         }
@@ -36,7 +49,7 @@ class HOMEDataset(torchvision.datasets.coco.CocoDetection):
             v: k for k, v in self.json_category_id_to_contiguous_id.items()
         }
         self.id_to_img_map = {k: v for k, v in enumerate(self.ids)}
-        self.transforms = transforms
+        self._transforms = transforms
 
         self.annos = json.load(open(ann_file))
         print()
