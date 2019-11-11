@@ -74,7 +74,7 @@ class HOMEDataset(torchvision.datasets.coco.CocoDetection):
 
         target = target.clip_to_image(remove_empty=True)
 
-        if self.transforms is not None:
+        if self._transforms is not None:
             img, target = self.transforms(img, target)
 
         return img, target, idx
