@@ -163,44 +163,45 @@ def main():
     cfg.merge_from_list(args.opts)
     # cfg.freeze()
 
-    for learn_rate in np.arange(0.0001, 0.0012, 0.0001):
-        for iter_count in range(40000, 100000, 1000):
-            print(f"lr: {float(learn_rate)}  iter_count: {iter_count}")
+    iter_count = 60000
 
-            outdir = os.path.join(
-                "hypertune", f"lr{float(learn_rate)}iter{iter_count}")
+    for learn_rate in np.arange(0.0001, 0.0015, 0.0001):
+        print(f"lr: {float(learn_rate)}  iter_count: {iter_count}")
 
-            print(outdir)
-            cfg.OUTPUT_DIR = outdir  # set the output folder specific to learning rate
-            cfg['SOLVER']['BASE_LR'] = float(learn_rate)  # set the learning rate
-            cfg['SOLVER']['MAX_ITER'] = iter_count
+        outdir = os.path.join(
+            "hypertune", f"lr{float(learn_rate)}iter{iter_count}")
 
-            output_dir = cfg.OUTPUT_DIR
-            if output_dir:
-                mkdir(output_dir)
+        print(outdir)
+        cfg.OUTPUT_DIR = outdir  # set the output folder specific to learning rate
+        cfg['SOLVER']['BASE_LR'] = float(learn_rate)  # set the learning rate
+        cfg['SOLVER']['MAX_ITER'] = iter_count
 
-            logger = setup_logger("maskrcnn_benchmark", output_dir, get_rank())
-            logger.info("Using {} GPUs".format(num_gpus))
-            logger.info(args)
+        output_dir = cfg.OUTPUT_DIR
+        if output_dir:
+            mkdir(output_dir)
 
-            logger.info("Collecting env info (might take some time)")
-            logger.info("\n" + collect_env_info())
+        logger = setup_logger("maskrcnn_benchmark", output_dir, get_rank())
+        logger.info("Using {} GPUs".format(num_gpus))
+        logger.info(args)
 
-            logger.info("Loaded configuration file {}".format(args.config_file))
-            with open(args.config_file, "r") as cf:
-                config_str = "\n" + cf.read()
-                logger.info(config_str)
-            logger.info("Running with config:\n{}".format(cfg))
+        logger.info("Collecting env info (might take some time)")
+        logger.info("\n" + collect_env_info())
 
-            output_config_path = os.path.join(cfg.OUTPUT_DIR, 'config.yml')
-            logger.info("Saving config into: {}".format(output_config_path))
-            # save overloaded model config in the output directory
-            save_config(cfg, output_config_path)
+        logger.info("Loaded configuration file {}".format(args.config_file))
+        with open(args.config_file, "r") as cf:
+            config_str = "\n" + cf.read()
+            logger.info(config_str)
+        logger.info("Running with config:\n{}".format(cfg))
 
-            model = train(cfg, args.local_rank, args.distributed)
+        output_config_path = os.path.join(cfg.OUTPUT_DIR, 'config.yml')
+        logger.info("Saving config into: {}".format(output_config_path))
+        # save overloaded model config in the output directory
+        save_config(cfg, output_config_path)
 
-            if not args.skip_test:
-                run_test(cfg, model, args.distributed)
+        model = train(cfg, args.local_rank, args.distributed)
+
+        if not args.skip_test:
+            run_test(cfg, model, args.distributed)
 
 
 if __name__ == "__main__":
