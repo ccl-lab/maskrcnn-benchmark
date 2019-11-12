@@ -13,12 +13,13 @@ from torchvision import transforms as T
 import pdb
 import cv2
 import os.path as osp
+from maskrcnn_benchmark.data.datasets import COCODataset
 
 from .coco import COCODataset
 
 # Dataloader for shortest path (SP) baseline
 # TODO: Could be merged into EVRDataset with a new condition
-class HOMEDataset(torchvision.datasets.coco.CocoDetection):
+class HOMEDataset(COCODataset):
     def __init__(self, ann_file, root, seq_len=10, seq_step=1, transforms=None, target_transform=None):
         from pycocotools.coco import COCO
         root = osp.join(osp.abspath(osp.join(osp.dirname(__file__), '..', '..', "..")), root)
