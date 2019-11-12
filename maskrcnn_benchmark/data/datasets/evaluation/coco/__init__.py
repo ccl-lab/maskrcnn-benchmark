@@ -1,6 +1,6 @@
 from .coco_eval import do_coco_evaluation as do_orig_coco_evaluation
 from .coco_eval_wrapper import do_coco_evaluation as do_wrapped_coco_evaluation
-from maskrcnn_benchmark.data.datasets import AbstractDataset, COCODataset
+from maskrcnn_benchmark.data.datasets import AbstractDataset, COCODataset, HOMEDataset
 
 
 def coco_evaluation(
@@ -12,7 +12,7 @@ def coco_evaluation(
     expected_results,
     expected_results_sigma_tol,
 ):
-    if isinstance(dataset, COCODataset):
+    if isinstance(dataset, COCODataset) or isinstance(dataset, HOMEDataset):
         return do_orig_coco_evaluation(
             dataset=dataset,
             predictions=predictions,
