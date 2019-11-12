@@ -165,14 +165,14 @@ def main():
 
     for learn_rate in np.arange(0.0001, 0.0012, 0.0001):
         for iter_count in range(40000, 100000, 1000):
-            print(f"lr: {learn_rate}  iter_count: {iter_count}")
+            print(f"lr: {float(learn_rate)}  iter_count: {iter_count}")
 
             outdir = os.path.join(
-                "hypertune", f"lr{learn_rate}iter{iter_count}")
+                "hypertune", f"lr{float(learn_rate)}iter{iter_count}")
 
             print(outdir)
             cfg.OUTPUT_DIR = outdir  # set the output folder specific to learning rate
-            cfg['SOLVER']['BASE_LR'] = learn_rate  # set the learning rate
+            cfg['SOLVER']['BASE_LR'] = float(learn_rate)  # set the learning rate
             cfg['SOLVER']['MAX_ITER'] = iter_count
 
             output_dir = cfg.OUTPUT_DIR
