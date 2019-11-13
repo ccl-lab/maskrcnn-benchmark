@@ -169,7 +169,7 @@ def main():
         print(f"lr: {float(learn_rate)}  iter_count: {iter_count}")
 
         outdir = os.path.join(
-            "hypertune", f"lr{float(learn_rate)}iter{iter_count}")
+            "hypertune", f"lr{float(learn_rate)}")
 
         print(outdir)
         cfg.OUTPUT_DIR = outdir  # set the output folder specific to learning rate

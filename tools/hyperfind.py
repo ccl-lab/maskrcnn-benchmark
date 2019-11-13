@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     for root, dirs, files in os.walk(args.start_dir):
         for dir in dirs:
-            lr = float(dir)
+            lr = float(dir.replace("lr", ""))
             p = osp.join(root, dir, "inference",
                          args.test_name, "coco_results.pth")
             if os.path.exists(p):
