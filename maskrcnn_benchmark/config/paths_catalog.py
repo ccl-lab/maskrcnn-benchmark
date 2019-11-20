@@ -179,6 +179,22 @@ class DatasetCatalog(object):
             "img_dir": "home/train15",
             "ann_file": "home/annotations/test15_green.json"
         },
+        "home_15_train_nopot": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15_nopot.json"
+        },
+        "home_15_test_nopot": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15_nopot.json"
+        },
+        "home_15_train_justpot": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/train15_justpot.json"
+        },
+        "home_15_test_justpot": {
+            "img_dir": "home/train15",
+            "ann_file": "home/annotations/test15_justpot.json"
+        },
         "home_15_inference": {
             "img_dir": "home/infer15",
             "ann_file": "home/annotations/infer15.json"
