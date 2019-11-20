@@ -14,6 +14,6 @@ SOLVER:
   MAX_ITER: 60000
   IMS_PER_BATCH: 1
   CHECKPOINT_PERIOD: 5000
-OUTPUT_DIR: "training/c4_latest_green"
+OUTPUT_DIR: "training/c4_latest_nopot"
 TEST:
   IMS_PER_BATCH: 1
