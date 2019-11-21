@@ -39,7 +39,9 @@ class HOMEDataset(torchvision.datasets.coco.CocoDetection):
             7: "mango",
             8: "moose",
             9: "pot",
-            10: "seal"
+            10: "seal",
+            11: "pot_yellow",
+            12: "pot_black"
         }
 
         self.json_category_id_to_contiguous_id = {
