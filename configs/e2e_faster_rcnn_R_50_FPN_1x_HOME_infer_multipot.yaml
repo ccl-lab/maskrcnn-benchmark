@@ -22,7 +22,7 @@ MODEL:
     PREDICTOR: "FPNPredictor"
     NUM_CLASSES: 13
 DATASETS:
-  TEST: ("home_15_green_sample",)
+  TEST: ("home_15_infer_multipot",)
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
