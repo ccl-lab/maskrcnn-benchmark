@@ -13,7 +13,7 @@ from util import load_json, save_json, process_boxes
 
 CATEGORIES = ["bison", "alligator", "drop", "kettle",
               "koala", "lemon", "mango", "moose", "pot",
-              "seal"]
+              "seal", "pot_yellow", "pot_black"]
 
 parser = argparse.ArgumentParser(description='Generate a COCO style dataset from the HOME training data folder')
 parser.add_argument("--image_dir", type=str) # path to directory with original images
