@@ -199,6 +199,10 @@ class DatasetCatalog(object):
             "img_dir": "home/infer15",
             "ann_file": "home/annotations/test15_multipot_infer.json"
         },
+        "home_15_infer_multipot_1535": {
+            "img_dir": "home/infer15",
+            "ann_file": "home/annotations/test15_multipot_infer_1535.json"
+        },
         "home_15_train_justpot": {
             "img_dir": "home/train15",
             "ann_file": "home/annotations/train15_justpot.json"
