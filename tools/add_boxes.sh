@@ -6,4 +6,7 @@
 #python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/c4_latest_green/inference/home_15_green_sample/bbox.json --data ../datasets/home/annotations/test15_subsample_green.json --out_dir training/c4_latest_green/boxed_images
 #python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/c4_latest_nopot/inference/home_15_green_sample/bbox.json --data ../datasets/home/annotations/test15_subsample_green.json --out_dir training/c4_latest_nopot/boxed_images
 #python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_green_sample/bbox.json --data ../datasets/home/annotations/test15_subsample_green.json --out_dir training/FPN_latest_multipot/boxed_images
-python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot/bbox.json --data ../datasets/home/annotations/test15_multipot_infer.json --out_dir training/FPN_latest_multipot/boxed_images
+
+# python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot/bbox.json --data ../datasets/home/annotations/test15_multipot_infer.json --out_dir training/FPN_latest_multipot/boxed_images
+
+python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot_1535/bbox_processed.json --data ../datasets/home/annotations/test15_multipot_infer_1535.json --out_dir training/FPN_latest_multipot/boxed_images_processed
