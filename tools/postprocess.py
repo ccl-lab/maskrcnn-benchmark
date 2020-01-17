@@ -1,6 +1,7 @@
 import numpy as np
 import json
 import argparse
+from copy import deepcopy
 
 
 def filter_low_confidence(boxes, conf=0.80):
@@ -51,7 +52,7 @@ def get_ordering(boxes, dataset):
     return orders, subjs
 
 
-def smoothing(boxes, orders, subjs, window_size=2, adj_thresh=2):
+def smoothing(boxes, orders, subjs, window_size=2, adj_thresh=3):
 
     results = []
 
@@ -98,38 +99,6 @@ def smoothing(boxes, orders, subjs, window_size=2, adj_thresh=2):
 
 
 
-            # for i in range(len(ordered_items)):
-            #     # add the first detection
-            #     if i == 0:
-            #         results.append(ordered_items[i][0])
-            #         continue
-            #
-            #     # check for a lone detection,
-            #     if ordered_items[i][1] - ordered_items[i-1][1] > adj_thresh and\
-            #             ordered_items[i+1][1] - ordered_items[i][1] > adj_thresh:
-
-
-
-
-
-            # while j < len(ordered_items):
-            #
-            #     w = ordered_items[i:j]
-            #     boxs = [boxes[x[0]] for x in w]
-            #
-            #     for b in boxs[window_size]:
-            #
-            #         # do a majority vote
-            #         vote = sum([1 for x in boxs[:window_size] + boxs[window_size + 1:]
-            #                     if any(bx['category_id'] == b['category_id']
-            #                            for bx in x)])
-            #
-            #         if vote < window_size:
-            #             # remove detection if it fails the vote
-            #             boxes[w[window_size][0]] = [x for x in boxes[w[window_size][0]]
-            #                                         if x['category_id'] != b['category_id']]
-
-
 def filter_islands(ordered_items, adj_thresh):
     results = []
 
@@ -138,6 +107,7 @@ def filter_islands(ordered_items, adj_thresh):
         if i == len(ordered_items) - 1:
             results.append(ordered_items[i])
             continue
+
 
         # check for a lone detection,
         if ordered_items[i][1] - ordered_items[i - 1][1] > adj_thresh and \
@@ -148,8 +118,56 @@ def filter_islands(ordered_items, adj_thresh):
 
     return results
 
-def add_missing(ordered_items, adj_thresh):
-    return ordered_items
+def add_missing(items, adj_thresh=3, num_neighbs=2, comp_thresh=2):
+
+    i = 0
+    while i < len(items):
+
+        # handle beginning
+        if i < num_neighbs:
+            i += 1
+            continue
+        # handle end
+        if i >= len(items) - num_neighbs:
+            i += 1
+            break
+
+        fwd_neighbs = sorted([items[i + j] for j in range(1, num_neighbs+1)], key=lambda x: x[1])
+        back_neighbs = sorted([items[i - j] for j in range(1, num_neighbs+1)], key=lambda x: x[1])
+
+        fsum = sum(fwd_neighbs[i][1] - fwd_neighbs[i-1][1] for i in range(1, len(fwd_neighbs)))
+        bsum = sum(back_neighbs[i][1] - back_neighbs[i - 1][1] for i in range(1, len(back_neighbs)))
+
+        # check if detections in this time window are compact
+        compact_neighb = False
+        if fsum < (num_neighbs - 1 + comp_thresh) and bsum < (num_neighbs - 1 + comp_thresh):
+            compact_neighb = True
+
+        bdiff = items[i][1] - back_neighbs[-1][1]
+        fdiff = fwd_neighbs[0][1] - items[i][1]
+
+
+        if bdiff > 1 and bdiff <= adj_thresh and\
+            fdiff >= 1 and fdiff <= adj_thresh and\
+                compact_neighb:
+
+            for j in range(bdiff - 1):
+                new_det = (deepcopy(back_neighbs[-1]), back_neighbs[-1][1] + j + 1)
+                items.insert(i, new_det)
+                i += 1
+
+            i += 1
+            continue
+        else:
+            i += 1
+            continue
+
+    for i, x in enumerate(items):
+        if i > 0:
+            if items[i-1][1] > items[i][1]:
+                raise Exception("ordering failure")
+
+    return items
 
 def make_mapped_boxes(boxes):
 
