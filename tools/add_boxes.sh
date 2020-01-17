@@ -9,4 +9,5 @@
 
 # python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot/bbox.json --data ../datasets/home/annotations/test15_multipot_infer.json --out_dir training/FPN_latest_multipot/boxed_images
 
-python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot_1535/bbox_processed.json --data ../datasets/home/annotations/test15_multipot_infer_1535.json --out_dir training/FPN_latest_multipot/boxed_images_processed
+#python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot_1535/bbox_processed.json --data ../datasets/home/annotations/test15_multipot_infer_1535.json --out_dir training/FPN_latest_multipot/boxed_images_processed
+python add_boxes.py --image_dir ../datasets/home/infer15 --boxes training/FPN_latest_multipot/inference/home_15_infer_multipot_1535/bbox_processed2.json --data ../datasets/home/annotations/test15_multipot_infer_1535.json --out_dir training/FPN_latest_multipot/boxed_images_processed2
