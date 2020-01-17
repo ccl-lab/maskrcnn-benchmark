@@ -152,7 +152,7 @@ def add_missing(items, adj_thresh=3, num_neighbs=2, comp_thresh=2):
                 compact_neighb:
 
             for j in range(bdiff - 1):
-                new_det = (deepcopy(back_neighbs[-1]), back_neighbs[-1][1] + j + 1)
+                new_det = (deepcopy(back_neighbs[-1][0]), back_neighbs[-1][1] + j + 1)
                 items.insert(i, new_det)
                 i += 1
 
