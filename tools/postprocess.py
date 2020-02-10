@@ -52,7 +52,7 @@ def get_ordering(boxes, dataset):
     return orders, subjs
 
 
-def smoothing(boxes, orders, subjs, window_size=2, adj_thresh=3):
+def smoothing(boxes, orders, subjs, id2fnum=None, fnum2id=None, window_size=3, adj_thresh=4, ):
 
     results = []
 
@@ -83,13 +83,11 @@ def smoothing(boxes, orders, subjs, window_size=2, adj_thresh=3):
                     results.append(i[0])
                 continue
 
-            i = 0
-            j = window_size + 1 + window_size
 
             # remove detections that are lone islands, with no adjacent detections
             ordered_items = filter_islands(ordered_items, adj_thresh)
             # add missing detections, filling in the holes between adjacent detections
-            ordered_items = add_missing(ordered_items, adj_thresh)
+            ordered_items = add_missing(ordered_items, adj_thresh, id2fnum, fnum2id)
 
             # dump the resulting detections into the global results
             for b in ordered_items:
@@ -118,7 +116,7 @@ def filter_islands(ordered_items, adj_thresh):
 
     return results
 
-def add_missing(items, adj_thresh=3, num_neighbs=2, comp_thresh=2):
+def add_missing(items, adj_thresh=4, id2fnum=None, fnum2id=None, num_neighbs=2, comp_thresh=4):
 
     i = 0
     while i < len(items):
@@ -140,7 +138,8 @@ def add_missing(items, adj_thresh=3, num_neighbs=2, comp_thresh=2):
 
         # check if detections in this time window are compact
         compact_neighb = False
-        if fsum < (num_neighbs - 1 + comp_thresh) and bsum < (num_neighbs - 1 + comp_thresh):
+        comp_thr = (num_neighbs - 1 + num_neighbs * comp_thresh)
+        if fsum < comp_thr and bsum < comp_thr:
             compact_neighb = True
 
         bdiff = items[i][1] - back_neighbs[-1][1]
@@ -152,7 +151,11 @@ def add_missing(items, adj_thresh=3, num_neighbs=2, comp_thresh=2):
                 compact_neighb:
 
             for j in range(bdiff - 1):
-                new_det = (deepcopy(back_neighbs[-1][0]), back_neighbs[-1][1] + j + 1)
+                nd = deepcopy(back_neighbs[-1][0])
+                new_fnum = back_neighbs[-1][1] + j + 1
+                nd['image_id'] = fnum2id[new_fnum]
+
+                new_det = (nd, new_fnum)
                 items.insert(i, new_det)
                 i += 1
 
@@ -183,6 +186,24 @@ def make_mapped_boxes(boxes):
 
     return img_boxes
 
+def id_to_fnum(dataset):
+
+    fnum2id = {}
+    id2fnum = {}
+
+    for img in dataset['images']:
+        name = img['file_name']
+        sname = name.split("_")
+        # subj = sname[1] + sname[2]
+        id = img['id']
+
+        fnum = int(sname[3].replace(".jpg", "").replace("frame", ""))
+
+        fnum2id[fnum] = id
+        id2fnum[id] = fnum
+
+    return id2fnum, fnum2id
+
 
 
 if __name__ == "__main__":
@@ -200,6 +221,8 @@ if __name__ == "__main__":
     with open(args.dataset_file, "r") as input:
         dataset = json.load(input)
 
+    id2fnum, fnum2id = id_to_fnum(dataset)
+
 
     boxes = filter_low_confidence(boxes)
 
@@ -209,7 +232,7 @@ if __name__ == "__main__":
 
     mapped_boxes = filter_duplicates(mapped_boxes)
 
-    results = smoothing(mapped_boxes, orders, subjs)
+    results = smoothing(mapped_boxes, orders, subjs, id2fnum, fnum2id)
 
     with open(args.output, "w") as out:
         json.dump(results, out)
