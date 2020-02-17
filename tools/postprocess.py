@@ -92,6 +92,7 @@ def smoothing(boxes, orders, subjs, id2fnum=None, fnum2id=None, window_size=3, a
             # dump the resulting detections into the global results
             for b in ordered_items:
                 results.append(b[0])
+                print(b)
 
     return results
 
@@ -222,15 +223,26 @@ if __name__ == "__main__":
         dataset = json.load(input)
 
     id2fnum, fnum2id = id_to_fnum(dataset)
+    print("ran id2fnum")
+    print(len(id2fnum))
+    print(len(fnum2id))
 
 
     boxes = filter_low_confidence(boxes)
+    print("filtered low confidence")
+    print(len(boxes))
 
     orders, subjs = get_ordering(boxes, dataset)
+    print("made ordering")
+    print(len(subjs))
 
     mapped_boxes = make_mapped_boxes(boxes)
+    print("made mapped boxes")
+    print(len(mapped_boxes))
 
     mapped_boxes = filter_duplicates(mapped_boxes)
+    print("filtered duplicates")
+    print(len(mapped_boxes))
 
     results = smoothing(mapped_boxes, orders, subjs, id2fnum, fnum2id)
 
