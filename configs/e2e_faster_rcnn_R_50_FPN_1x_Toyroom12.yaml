@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "pretrained_models/e2e_faster_rcnn_R_50_FPN_1x_trimmed_multipot.pth"
+  WEIGHT: "pretrained_models/e2e_faster_rcnn_R_50_FPN_1x_trimmed_toyroom12.pth"
   BACKBONE:
     CONV_BODY: "R-50-FPN"
   RESNETS:
