@@ -57,6 +57,7 @@ def smoothing(boxes, orders, subjs, id2fnum=None, fnum2id=None, window_size=3, a
     results = []
 
     for subj, imgs in subjs.items():
+        print(subj)
 
         img_ordered = [(i, orders[i]) for i in imgs]
         img_ordered = sorted(img_ordered, key=lambda x: x[1])
@@ -92,7 +93,7 @@ def smoothing(boxes, orders, subjs, id2fnum=None, fnum2id=None, window_size=3, a
             # dump the resulting detections into the global results
             for b in ordered_items:
                 results.append(b[0])
-                print(b)
+                # print(b)
 
     return results
 
@@ -187,6 +188,7 @@ def make_mapped_boxes(boxes):
 
     return img_boxes
 
+
 def id_to_fnum(dataset):
 
     fnum2id = {}
@@ -204,6 +206,23 @@ def id_to_fnum(dataset):
         id2fnum[id] = fnum
 
     return id2fnum, fnum2id
+
+def add_fname_to_boxes(dataset, mapped_boxes):
+    for img in dataset['images']:
+        name = img['file_name']
+        sname = name.split("_")
+        subj = "{}_{}".format(sname[1], sname[2])
+        id = img['id']
+
+        fnum = int(sname[3].replace(".jpg", "").replace("frame", ""))
+
+        if id in mapped_boxes:
+            for i, frame in enumerate(mapped_boxes[id]):
+                # mapped_boxes[id][i]['subj'] = subj
+                mapped_boxes[id][i]['fnum'] = fnum
+                mapped_boxes[id][i]['fname'] = name
+
+    return mapped_boxes
 
 
 
@@ -243,6 +262,8 @@ if __name__ == "__main__":
     mapped_boxes = filter_duplicates(mapped_boxes)
     print("filtered duplicates")
     print(len(mapped_boxes))
+
+    mapped_boxes = add_fname_to_boxes(dataset, mapped_boxes)
 
     results = smoothing(mapped_boxes, orders, subjs, id2fnum, fnum2id)
 

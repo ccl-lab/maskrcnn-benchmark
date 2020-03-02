@@ -41,3 +41,4 @@ exclude-list.txt
 sync.sh
 
 tools/test_data
+tools/output

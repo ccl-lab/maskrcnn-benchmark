@@ -147,6 +147,14 @@ class DatasetCatalog(object):
             "mode": "mask",
             "mini": 10,
         },
+        "toyroom_12_train": {
+            "img_dir": "toyroom/train12",
+            "ann_file": "toyroom/annotations/train12.json"
+        },
+        "toyroom_12_test": {
+            "img_dir": "toyroom/train12",
+            "ann_file": "toyroom/annotations/test12.json"
+        },
         "home_15_train": {
             "img_dir": "home/train15",
             "ann_file": "home/annotations/train15.json"

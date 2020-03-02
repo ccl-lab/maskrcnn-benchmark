@@ -18,7 +18,8 @@ def evaluate(dataset, predictions, output_folder, **kwargs):
     args = dict(
         dataset=dataset, predictions=predictions, output_folder=output_folder, **kwargs
     )
-    if isinstance(dataset, datasets.COCODataset) or isinstance(dataset, datasets.HOMEDataset):
+    if isinstance(dataset, datasets.COCODataset) or isinstance(dataset, datasets.HOMEDataset)\
+           or isinstance(dataset, datasets.ToyroomDataset):
         return coco_evaluation(**args)
     elif isinstance(dataset, datasets.PascalVOCDataset):
         return voc_evaluation(**args)

@@ -6,6 +6,7 @@ from .concat_dataset import ConcatDataset
 from .abstract import AbstractDataset
 from .cityscapes import CityScapesDataset
 from .home import HOMEDataset
+from .toyroom import ToyroomDataset
 
 __all__ = [
     "COCODataset",
@@ -14,4 +15,5 @@ __all__ = [
     "AbstractDataset",
     "CityScapesDataset",
     "HOMEDataset",
+    "ToyroomDataset"
 ]
