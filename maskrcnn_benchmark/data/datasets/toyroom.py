@@ -73,7 +73,7 @@ class ToyroomDataset(torchvision.datasets.coco.CocoDetection):
         return len(self.ids)
 
     def __getitem__(self, idx):
-        img, anno = super(HOMEDataset, self).__getitem__(idx)
+        img, anno = super(ToyroomDataset, self).__getitem__(idx)
         anno = [obj for obj in anno if obj["iscrowd"] == 0]
 
         boxes = [obj["bbox"] for obj in anno]
