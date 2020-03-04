@@ -22,7 +22,6 @@ def filter_top(boxes, thresh=None, min_thresh=0.0):
                                           key=lambda x: x['score'],
                                           reverse=True)
                     if sorted_items[0]['score'] >= min_thresh:
-                        print(sorted_items[0])
                         result[key][key_cat] = sorted_items[0]
 
                 # keep all detections with confidence >= thresh

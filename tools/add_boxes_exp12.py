@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 img_dir = args.image_dir
 boxes = load_json(args.boxes)
-boxes = process_boxes(boxes, min_thresh=0.75)
+boxes = process_boxes(boxes, min_thresh=0.60)
 data = load_json(args.data)
 outdir = args.out_dir
 
@@ -116,8 +116,6 @@ def overlay_class_names(image, predictions):
 
     template = "{}: {:.2f}"
     for box, label, score in zip(boxes, labels, scores):
-        if label == "hammer":
-            print("*********** found hammer ***************")
         x, y = box[:2]
         s = template.format(label, score)
         cv2.putText(
@@ -140,9 +138,10 @@ for img, boxes in img_boxes.items():
         print(img)
         i = cv2.imread(os.path.join(img_dir, img))
         i = overlay_boxes(i, boxes)
-        # i = overlay_class_names(i, boxes)
+        i = overlay_class_names(i, boxes)
         cv2.imwrite(os.path.join(outdir, img), i)
     # results.append((img, i))
+
 
 
 
