@@ -159,7 +159,7 @@ class DatasetCatalog(object):
             "img_dir": "toyroom/infer91",
             "ann_file": "toyroom/annotations/exp91_infer_sample.json"
         },
-        "toyroom_91_infer_samp": {
+        "toyroom_91_infer_full": {
             "img_dir": "toyroom/infer91",
             "ann_file": "toyroom/annotations/exp91_infer_full.json"
         },
