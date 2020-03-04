@@ -6,6 +6,7 @@ import json
 def filter_top(boxes, thresh=None, min_thresh=0.0):
     result = {}
     print(thresh)
+    print(min_thresh)
 
     for key, item in boxes.items():
         if key not in result:
@@ -21,6 +22,7 @@ def filter_top(boxes, thresh=None, min_thresh=0.0):
                                           key=lambda x: x['score'],
                                           reverse=True)
                     if sorted_items[0]['score'] >= min_thresh:
+                        print(sorted_items[0])
                         result[key][key_cat] = sorted_items[0]
 
                 # keep all detections with confidence >= thresh
@@ -97,7 +99,7 @@ def save_json(boxes, path):
 def process_boxes(boxes, min_thresh=0.):
     boxes = chunk_by_image(boxes)
 
-    boxes = filter_top(boxes, thresh=min_thresh, min_thresh=min_thresh)
+    boxes = filter_top(boxes, min_thresh=min_thresh)
     boxes = unchunk(boxes)
     # boxes = filter_overlap(boxes)
 
