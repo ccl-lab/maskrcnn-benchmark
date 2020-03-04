@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 img_dir = args.image_dir
 boxes = load_json(args.boxes)
-boxes = process_boxes(boxes, min_thresh=0.7)
+boxes = process_boxes(boxes, thresh=0.75)
 data = load_json(args.data)
 outdir = args.out_dir
 
