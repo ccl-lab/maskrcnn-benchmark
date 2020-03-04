@@ -140,7 +140,7 @@ for img, boxes in img_boxes.items():
         print(img)
         i = cv2.imread(os.path.join(img_dir, img))
         i = overlay_boxes(i, boxes)
-        i = overlay_class_names(i, boxes)
+        # i = overlay_class_names(i, boxes)
         cv2.imwrite(os.path.join(outdir, img), i)
     # results.append((img, i))
 
