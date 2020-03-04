@@ -96,7 +96,7 @@ def save_json(boxes, path):
 def process_boxes(boxes, min_thresh=0.):
     boxes = chunk_by_image(boxes)
 
-    boxes = filter_top(boxes, min_thresh=min_thresh)
+    boxes = filter_top(boxes, thresh=min_thresh)
     boxes = unchunk(boxes)
     # boxes = filter_overlap(boxes)
 
