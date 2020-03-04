@@ -111,13 +111,13 @@ def overlay_class_names(image, predictions):
     # print(predictions)
     labels = predictions.get_field("labels").tolist()
     labels = [CATEGORIES[i-1] for i in labels]
-    print(labels)
+    # print(labels)
     boxes = predictions.bbox
 
     template = "{}: {:.2f}"
     for box, label, score in zip(boxes, labels, scores):
-        # if label == "pot":
-        #     print()
+        if label == "hammer":
+            print("*********** found hammer ***************")
         x, y = box[:2]
         s = template.format(label, score)
         cv2.putText(
