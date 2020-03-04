@@ -11,9 +11,11 @@ from PIL import Image
 
 from util import load_json, save_json, process_boxes
 
-CATEGORIES = ["bison", "alligator", "drop", "kettle",
-              "koala", "lemon", "mango", "moose", "pot",
-              "seal", "pot_yellow", "pot_black"]
+CATEGORIES = ['helmet', 'house', 'blue car', 'rose', 'elephant',
+              'snowman', 'rabbit', 'spongebob', 'turtle', 'gavel',
+              'ladybug', 'mantis', 'green car', 'saw', 'puppet',
+              'phone', 'r. cube', 'rake', 'truck', 'white car',
+              'rattle', 'p. cube', 'bed', 't. cube']
 
 parser = argparse.ArgumentParser(description='Add boxes to image frames')
 parser.add_argument("--image_dir", type=str) # path to directory with original images
