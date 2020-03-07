@@ -13,7 +13,7 @@ def choose_random(boxes, num):
 
     boxes = boxes[:num*50] if len(boxes) > num*50 else boxes
 
-    for i in range(1, 13):
+    for i in range(1, 25):
         obj_boxes = []
         for b in boxes:
             if b['category_id'] == i:

@@ -22,7 +22,7 @@ MODEL:
     PREDICTOR: "FPNPredictor"
     NUM_CLASSES: 25
 DATASETS:
-  TEST: ("toyroom_12_infer_full",)
+  TEST: ("toyroom_91_infer_full",)
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:

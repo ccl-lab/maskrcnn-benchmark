@@ -63,7 +63,7 @@ def smoothing(boxes, orders, subjs, id2fnum=None, fnum2id=None, window_size=3, a
         img_ordered = sorted(img_ordered, key=lambda x: x[1])
 
 
-        for item in range(1, 13):
+        for item in range(1, 25):
 
             item_boxes = []
 
